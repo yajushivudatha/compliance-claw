@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html class="nist-footer-bottom">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>National Institute of Standards and Technology</title>
+  <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+  <script src="https://code.jquery.com/jquery-3.6.2.min.js" type="text/javascript" defer="defer"></script>
+  <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+</head>
+<body>
+
+<header class="nist-header" id="nist-header" role="banner">
+
+
+</header>
+  <div id="main" class="nist-main">
+
+      <div class="grid-container margin-top-4 margin-bottom-10">
+        <h1 class="nist-page__title">Oops, that's not standard?!</h1>
+
+        <h2>Sorry, we cannot find that page.</h2>
+
+        <p>The page you requested cannot be found at this time. It may be temporarily unavailable or it may have been removed or relocated. You can use your browser back button to go back or click on the NIST link above to go to the main NIST site.</p>
+
+    </div>
+
+  </div>
+  <footer class="nist-footer">
+    <div class="nist-footer__inner">
+      <div class="nist-footer__menu" role="navigation">
+      </div>
+    </div>
+    <div class="nist-footer__logo">
+    </div>
+</footer>
+</body>
+</html>
