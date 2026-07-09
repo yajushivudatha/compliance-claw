@@ -1,200 +1,220 @@
-# Workload Security Compliance Agent
-**Cisco Live — ReadyOps Platform — Agent #20**
+\
+# 🦅 Compliance Claw
 
-An agentic AI system that validates CIS Kubernetes Benchmark v2.0.0 compliance
-across enterprise workload security platforms and generates signed compliance
-certificate reports automatically.
+<p align="center">
+  <img src="https://img.shields.io/badge/Cisco_Live-2026_Demo-blue?style=for-the-badge&logo=cisco&logoColor=white" alt="Cisco Live Banner">
+  <img src="https://img.shields.io/badge/Agent_ID-%2320-orange?style=for-the-badge" alt="Agent 20">
+  <img src="https://img.shields.io/badge/Framework-LangGraph-green?style=for-the-badge" alt="LangGraph">
+  <img src="https://img.shields.io/badge/Security-CIS_Hardened-red?style=for-the-badge" alt="CIS Hardened">
+</p>
+
+> **Cisco Live Demo • Agent #20 • ReadyOps Platform Integration**
+
+An enterprise-grade autonomous security compliance agent engineered for the **Criterion Networks ReadyOps Platform**. **Compliance Claw** automatically audits Kubernetes clusters, maps findings against leading security frameworks using a high-performance **ChromaDB RAG pipeline**, generates AI-powered remediation guidance, and produces executive-ready compliance reports.
 
 ---
 
-## Architecture
+## 🎪 Cisco Live Showcase Overview
 
+This repository serves as the official integration blueprint for **Agent #20** within the Criterion Networks ecosystem. It demonstrates how autonomous AI agents bridge cloud-native infrastructure engineering and enterprise security governance during live platform demonstrations.
+
+---
+
+## 🎮 Live Demo Workflow
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant RO as ReadyOps Platform
+    participant API as FastAPI
+    participant LG as LangGraph
+    participant MCP as Kubernetes MCP
+    participant RAG as ChromaDB
+    participant SN as ServiceNow
+
+    RO->>API: POST /scan
+    API-->>RO: 202 Accepted
+    Note over API,LG: Background task starts
+    API->>LG: Invoke workflow
+    LG->>MCP: Run Kubernetes security checks
+    MCP-->>LG: Cluster findings
+    LG->>RAG: Retrieve compliance context
+    RAG-->>LG: CIS / NIST / NSA guidance
+    LG->>LG: Generate AI summary
+    Note over LG: Human-in-the-loop approval
+    API->>MCP: Apply approved remediation
+    API->>SN: Upload signed PDF report
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    READYOPS PLATFORM                             │
-│                  POST /scan (HTTP Request)                       │
-└─────────────────────────┬───────────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                     FASTAPI SERVER                               │
-│                      main.py :8000                               │
-└─────────────────────────┬───────────────────────────────────────┘
-                          │
-                          ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                  LANGGRAPH AGENT                                 │
-│                                                                  │
-│  ┌─────────────┐    ┌─────────────┐    ┌──────────────────┐    │
-│  │   Node 1    │───▶│   Node 2    │───▶│     Node 3       │    │
-│  │  Security   │    │  RAG Query  │    │  AI Summary      │    │
-│  │  Checks     │    │  (ChromaDB) │    │  (Groq LLM)      │    │
-│  └──────┬──────┘    └─────────────┘    └──────────────────┘    │
-│         │                                                        │
-└─────────┼────────────────────────────────────────────────────── ┘
-          │
-          ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                  4 TOOL FUNCTIONS (MCP)                          │
-│                                                                  │
-│  ┌────────────┐  ┌────────────┐  ┌──────────┐  ┌────────────┐  │
-│  │ API Server │  │    etcd    │  │   RBAC   │  │    Pod     │  │
-│  │  CIS 1.2   │  │  CIS 2.x   │  │ CIS 5.1  │  │  Security  │  │
-│  │  6 checks  │  │  6 checks  │  │ 6 checks │  │  CIS 5.2   │  │
-│  └────────────┘  └────────────┘  └──────────┘  └────────────┘  │
-│                         │                                        │
-│                         ▼                                        │
-│              Kubernetes Cluster (MCP Server)                     │
-└─────────────────────────────────────────────────────────────────┘
-          │
-          ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                  RAG PIPELINE                                     │
-│                                                                  │
-│  ┌─────────────────┐   ┌────────────────┐   ┌───────────────┐  │
-│  │ CIS K8s v2.0.0  │   │  NIST 800-53   │   │  NSA / CISA   │  │
-│  │   1233 chunks   │   │  ~3400 chunks  │   │  ~800 chunks  │  │
-│  └─────────────────┘   └────────────────┘   └───────────────┘  │
-│                    ChromaDB Vector Store                         │
-└─────────────────────────────────────────────────────────────────┘
-          │
-          ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                  OUTPUT                                          │
-│                                                                  │
-│   JSON Response ──────────────────────────▶ ReadyOps Platform   │
-│   PDF Certificate ────────────────────────▶ ServiceNow Filing   │
-│   LangSmith Traces ───────────────────────▶ Observability       │
-└─────────────────────────────────────────────────────────────────┘
-          │
-          ▼
-┌─────────────────────────────────────────────────────────────────┐
-│               DEPLOYMENT                                         │
-│         Docker Container → Cloudflare Tunnel → Public URL        │
-└─────────────────────────────────────────────────────────────────┘
+
+---
+
+## 🏗️ System Architecture
+
+```mermaid
+graph TD
+
+A[ReadyOps Platform] --> B[FastAPI Gateway]
+
+B --> C[LangGraph State Machine]
+
+subgraph Workflow
+C --> D[Security Checks]
+D --> E[RAG Retrieval]
+E --> F[AI Summary]
+end
+
+D <--> G[Kubernetes MCP]
+E <--> H[(ChromaDB)]
+F --> I[Groq Llama 3.3]
+
+F --> J[JSON Response]
+F --> K[Executive PDF]
+C --> L[LangSmith Trace]
 ```
----
-
-## Tech Stack
-
-| Layer | Technology |
-|---|---|
-| Agent Framework | LangGraph StateGraph |
-| LLM | Groq (llama-3.3-70b-versatile) |
-| RAG / Vector DB | ChromaDB + HuggingFace Embeddings |
-| Observability | LangSmith |
-| Cluster Access | MCP Server (kubernetes-mcp-server) |
-| API | FastAPI + Uvicorn |
-| Deployment | Docker + Cloudflare Tunnel |
-| Report | ReportLab PDF |
 
 ---
 
-## Standards Covered
+## 💻 Technical Stack
 
-- CIS Kubernetes Benchmark v2.0.0
-- Sections: 1.2 API Server · 2.x etcd · 5.1 RBAC · 5.2 Pod Security
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| Agent Framework | LangGraph | Workflow orchestration |
+| LLM | Groq Llama 3.3 70B | AI reasoning |
+| Vector Database | ChromaDB | Semantic retrieval |
+| Embeddings | sentence-transformers | Document embeddings |
+| Cluster Access | Kubernetes MCP | Secure Kubernetes access |
+| API | FastAPI + Uvicorn | Backend service |
+| Observability | LangSmith | Execution tracing |
+| Reports | ReportLab | PDF generation |
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
-```
+```text
 compliance-agent/
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── agents/
-│   └── compliance_agent.py      # LangGraph StateGraph — 3 nodes
+│   └── compliance_agent.py
 ├── tools/
-│   └── kubernetes_tools.py      # 4 @tool functions via MCP
+│   └── kubernetes_tools.py
 ├── rag/
-│   ├── ingest.py                # PDF → ChromaDB ingestion (CIS + NIST + NSA)
-│   └── retriever.py             # Semantic search over compliance standards
+│   ├── ingest.py
+│   └── retriever.py
 ├── reports/
-│   └── pdf_generator.py         # ReportLab PDF certificate generator
+│   └── pdf_generator.py
 ├── data/
-│   ├── cis_k8s.pdf              # CIS Kubernetes Benchmark v2.0.0
-│   ├── nist_800_53.pdf          # NIST SP 800-53 Rev 5
-│   └── nsa_k8s.pdf              # NSA/CISA K8s Hardening Guide
-├── main.py                      # FastAPI server — POST /scan, GET /report
-├── mcp_tools.py                 # MCP cluster connection test
-├── Dockerfile                   # Container definition
-├── docker-compose.yml           # Service orchestration
-├── requirements.txt             # Python dependencies
-└── .env                         # API keys (never committed to Git)
+│   ├── cis_k8s.pdf
+│   ├── nist_800_53.pdf
+│   └── nsa_k8s.pdf
+├── main.py
+├── mcp_tools.py
+├── Dockerfile
+├── docker-compose.yml
+└── requirements.txt
 ```
 
 ---
 
-## Setup Instructions
+## 🛠️ Installation
 
-### 1. Clone the repo
+### Clone Repository
+
 ```bash
-git clone https://your-bitbucket-url/criterion-compliance-agent.git
-cd criterion-compliance-agent
+git clone https://github.com/yajushivudatha/compliance-agent.git
+cd compliance-agent
 ```
 
-### 2. Create virtual environment
+### Create Virtual Environment
+
 ```bash
 python -m venv venv
-venv\Scripts\activate        # Windows
-source venv/bin/activate     # Linux/Mac
+
+# Windows
+.\venv\Scripts\activate
+
+# Linux/macOS
+source venv/bin/activate
 ```
 
-### 3. Install dependencies
+### Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure environment variables
+### Configure Environment
+
 Create a `.env` file:
-```bash
-GROQ_API_KEY=your_groq_key
-LANGCHAIN_API_KEY=your_langsmith_key
+
+```env
+GROQ_API_KEY=
+
+LANGCHAIN_API_KEY=
 LANGCHAIN_TRACING_V2=true
 LANGCHAIN_PROJECT=compliance-agent
-K8S_MCP_URL=http://your-mcp-server/sse
+
+USE_MOCK_DATA=false
+K8S_MCP_URL=http://localhost:8080/sse
+READYOPS_TOKEN=
 ```
 
+### Build Vector Database
 
-### 5. Ingest CIS Benchmark into ChromaDB
 ```bash
 python rag/ingest.py
 ```
 
-### 6. Run the agent directly
+### Test the Agent
+
 ```bash
 python agents/compliance_agent.py
 ```
 
-### 7. Run the FastAPI server
+### Run the API
+
 ```bash
 uvicorn main:app --reload --port 8000
 ```
 
-### 8. Run via Docker
+---
+
+## 🐳 Docker
+
 ```bash
-docker compose up --build
+docker compose up -d --build
 ```
+
+The container runs as a non-root user and includes health checks for production deployment.
 
 ---
 
-## API Endpoints
+## 📡 API Reference
 
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/` | Service info |
-| GET | `/health` | Health check |
-| POST | `/scan` | Trigger compliance scan |
-| GET | `/report/{scan_id}/pdf` | Download PDF certificate |
-| GET | `/scans` | List all scans |
+| Method | Endpoint | Authentication | Description |
+|---------|----------|----------------|-------------|
+| GET | `/` | Public | API information |
+| GET | `/health` | Public | Health check |
+| POST | `/scan` | `X-ReadyOps-Token` | Start a compliance scan |
+| GET | `/scans` | `X-ReadyOps-Token` | List scan history |
+| GET | `/report/{scan_id}/pdf` | `X-ReadyOps-Token` | Download report |
 
-### Example scan request
+### Trigger a Scan
+
 ```bash
 curl -X POST http://localhost:8000/scan \
-  -H "Content-Type: application/json" \
-  -d '{"cluster_name": "criterion-k8s", "triggered_by": "readyops"}'
+-H "Content-Type: application/json" \
+-H "X-ReadyOps-Token: your-platform-secret-token" \
+-d '{
+  "cluster_name":"criterion-k8s",
+  "triggered_by":"readyops-platform"
+}'
 ```
 
-### Example response
+### Sample Response
+
 ```json
 {
   "scan_id": "SCAN-20260523-094724",
@@ -209,49 +229,28 @@ curl -X POST http://localhost:8000/scan \
 
 ---
 
-## Connecting to Real Kubernetes Cluster
+## 📸 Presentation Visuals
 
-This agent connects to a live Kubernetes cluster via MCP server.
-Set `K8S_MCP_URL` in your `.env` to the MCP server endpoint.
-
-To test connectivity:
-```bash
-python mcp_tools.py
-```
-
-When connected, the agent checks real cluster configurations instead of mock data.
-Switch `tools/kubernetes_tools.py` from mock to real MCP calls.
+| ReadyOps Dashboard | LangSmith Trace | Executive PDF |
+|--------------------|-----------------|---------------|
+| *(Add screenshot)* | *(Add screenshot)* | *(Add screenshot)* |
 
 ---
 
-## ReadyOps Integration
+## 📚 Compliance Standards
 
-This agent is designed as Agent #20 in the Criterion Networks ReadyOps platform.
-
-**Integration endpoint:**
-POST https://your-cloudflare-url.trycloudflare.com/scan
-
-**Request body:**
-```json
-{
-  "cluster_name": "production-cluster",
-  "triggered_by": "readyops-platform"
-}
-```
-
-**The agent returns** a full JSON compliance report plus a PDF download URL
-that can be filed automatically into ServiceNow.
+- CIS Kubernetes Benchmark v2.0.0
+- NIST SP 800-53 Revision 5
+- NSA/CISA Kubernetes Hardening Guide
 
 ---
 
-## LangSmith Observability
+## 👨‍💻 Project Ownership
 
-All agent runs are traced in LangSmith under the `compliance-agent` project.
-Every node execution, tool call, RAG query, and LLM prompt is recorded with
-timing and full input/output data.
+**Developer:** Yajushi Vudatha
 
----
+**Role:** Summer Intern
 
-## Built By
+**Organization:** Criterion Networks
 
-Yajushi Vudatha — Summer Intern
+**Assignment:** Agent #20 — ReadyOps Platform Integration Suite (Cisco Live Production Build)
