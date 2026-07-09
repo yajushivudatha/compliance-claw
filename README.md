@@ -1,4 +1,3 @@
-\
 # 🦅 Compliance Claw
 
 <p align="center">
