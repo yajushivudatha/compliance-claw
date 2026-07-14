@@ -250,6 +250,4 @@ curl -X POST http://localhost:8000/scan \
 
 **Role:** Summer Intern
 
-**Organization:** Criterion Networks
-
 **Assignment:** Agent #20 — ReadyOps Platform Integration Suite (Cisco Live Production Build)
