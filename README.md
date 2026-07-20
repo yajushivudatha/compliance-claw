@@ -228,14 +228,6 @@ curl -X POST http://localhost:8000/scan \
 
 ---
 
-## 📸 Presentation Visuals
-
-| ReadyOps Dashboard | LangSmith Trace | Executive PDF |
-|--------------------|-----------------|---------------|
-| *(Add screenshot)* | *(Add screenshot)* | *(Add screenshot)* |
-
----
-
 ## 📚 Compliance Standards
 
 - CIS Kubernetes Benchmark v2.0.0
